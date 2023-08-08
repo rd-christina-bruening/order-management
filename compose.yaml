@@ -1,0 +1,21 @@
+services:
+  app:
+    image: 'order-management'
+    container_name: 'greyscale-order-management-container'
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/order-management
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=password
+
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=order-management'
+      - 'POSTGRES_PASSWORD=password'
+      - 'POSTGRES_USER=admin'
+    ports:
+      - '5432'

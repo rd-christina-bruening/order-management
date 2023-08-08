@@ -1,0 +1,47 @@
+<h1 mat-dialog-title>Erstelle eine neue Bestellung</h1>
+<div mat-dialog-content>
+  <div>
+    <form [formGroup]="orderForm" class="form-container">
+
+      <mat-form-field appearance="outline">
+        <mat-label>E-Mail Adresse</mat-label>
+        <input matInput formControlName="customerEmailAddress" placeholder="E-Mail Adresse" required/>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Kundenname</mat-label>
+        <input matInput formControlName="customerName" placeholder="Name" required/>
+      </mat-form-field>
+      <!--TODO change to date picker -->
+      <mat-form-field appearance="outline">
+        <mat-label>Lieferdatum</mat-label>
+        <input matInput formControlName="deliveryDate" placeholder="Lieferdatum" required/>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Betreff</mat-label>
+        <input matInput formControlName="reference" placeholder="Betreff" required/>
+      </mat-form-field>
+
+      <div class="upload-container">
+        <ngx-file-drop dropZoneClassName="filedrop-dropzone" contentClassName="filedrop-content"
+                       accept=".jpg,.png,.jpeg" (onFileDrop)="dropped($event)">
+          <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+            <div style="display: flex; align-items: center" class="filedrop-content">
+              <div style="letter-spacing: 0;margin-right: 10px">Bilder hier ablegen oder</div>
+              <button mat-raised-button color="accent" (click)="openFileSelector()">Hochladen</button>
+            </div>
+          </ng-template>
+        </ngx-file-drop>
+      </div>
+
+      <div *ngFor="let file of files">
+        {{file.fileDropEntry?.fileEntry?.name}}
+      </div>
+
+
+    </form>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Abbrechen</button>
+  <button mat-raised-button (click)="onSaveClick()" color="accent">Sende die Bestellung</button>
+</div>
