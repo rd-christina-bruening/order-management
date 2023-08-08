@@ -4,7 +4,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {OrderData} from '../order-management-dashboard.component';
 import {NgxFileDropEntry} from 'ngx-file-drop';
 import {NotificationService} from '../../notification/notification.service';
-import {OrderDto, OrderManagementService} from '../../order-management.service';
+import {OrderInputDto, OrderManagementService} from '../../order-management.service';
 
 export type FileUploadItem = {
   fileDropEntry: NgxFileDropEntry | null;
@@ -39,7 +39,7 @@ export class CreateNewOrderDialog {
     private orderManagementService: OrderManagementService
   ) {
   }
-  onNoClick(): void {
+  onClickCancel(): void {
     this.dialogRef.close();
   }
 
@@ -54,7 +54,7 @@ export class CreateNewOrderDialog {
 
     formData.append('orderData', JSON.stringify(this.createOrderDto()));
 
-    this.orderManagementService.saveNewOrder(formData).subscribe();
+    this.orderManagementService.saveNewOrder(formData).subscribe(result => this.dialogRef.close());
   }
 
   public dropped(files: NgxFileDropEntry[]) {
@@ -120,9 +120,13 @@ export class CreateNewOrderDialog {
     }
   }
 
-  private createOrderDto() : OrderDto{
+  private createOrderDto() : OrderInputDto{
     const values = this.orderForm.getRawValue();
-
-    return new OrderDto(values['customerEmailAddress']!!, values['customerName']!!, values['reference']!!, values['deliveryDate']!!);
+    return new OrderInputDto(
+      values['customerEmailAddress']!!,
+      values['customerName']!!,
+      values['reference']!!,
+      values['deliveryDate']!!
+    );
   }
 }

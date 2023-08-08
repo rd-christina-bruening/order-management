@@ -7,21 +7,27 @@ import com.greyscale.ordermanagement.model.OrderId;
 
 public class OrderConverter {
 
-    public static OrderEntity convertToEntity(OrderInputDto orderInputDto) {
+    public static OrderEntity convertToEntity(OrderInputDto orderInputDto, int numberOfFiles) {
         OrderId orderId = new OrderId(
                 orderInputDto.customerEmailAddress(),
                 orderInputDto.deliveryDate()
         );
 
-        return new OrderEntity(orderId,
+        return new OrderEntity(
+                orderId,
                 orderInputDto.customerName(),
-                orderInputDto.reference());
+                orderInputDto.reference(),
+                numberOfFiles
+        );
     }
 
     public static OrderDto convertToDto(OrderEntity orderEntity) {
-        return new OrderDto(orderEntity.getOrderId().getCustomerEmailAddress(),
+        return new OrderDto(
+                orderEntity.getOrderId().getCustomerEmailAddress(),
                 orderEntity.getOrderId().getDeliveryDate(),
                 orderEntity.getCustomerName(),
-                orderEntity.getReference());
+                orderEntity.getReference(),
+                orderEntity.getNumberOfFilesSaved()
+        );
     }
 }

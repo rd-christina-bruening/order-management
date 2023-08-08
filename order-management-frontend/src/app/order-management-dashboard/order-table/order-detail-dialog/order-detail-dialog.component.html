@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Bestelldetails</h1>
+<div mat-dialog-content>
+  <div>
+    Lieferdatum: {{data.order.deliveryDate}}
+  </div>
+  <div>
+    Kundenname: {{data.order.customerName}}
+  </div>
+  <div>
+    Betreff: {{data.order.reference}}
+  </div>
+  <div>
+    E-MailAdresse: {{data.order.customerEmailAddress}}
+  </div>
+  <div>
+    Anzahl Uploads: {{data.order.numberOfFilesSaved}}
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="onClickCancel()">Abbrechen</button>
+  <button mat-raised-button color="accent" (click)="downloadFiles()">Dateien herunterladen</button>
+</div>

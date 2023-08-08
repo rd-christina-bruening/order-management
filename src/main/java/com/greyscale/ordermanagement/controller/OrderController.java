@@ -61,6 +61,7 @@ public class OrderController {
             orderDto = objectMapper.readValue(orderData, new TypeReference<OrderInputDto>() {
             });
         } catch (JsonProcessingException e) {
+            LOGGER.error("Cannot process input data ", e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -90,5 +91,19 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // TODO add Controller to download zip file
+    @GetMapping(value = "zip/{emailAddress}/{deliveryDate}", produces = "application/zip")
+    public ResponseEntity<byte[]> getZipFile(
+            @PathVariable("emailAddress") String emailAddress,
+            @PathVariable("deliveryDate") LocalDate deliveryDate
+    ) {
+        if (!orderService.doesOrderExist(emailAddress, deliveryDate)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        try {
+            byte[] zipFile = orderService.getZipFile(emailAddress, deliveryDate);
+            return new ResponseEntity<>(zipFile, HttpStatus.OK);
+        } catch (IOException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

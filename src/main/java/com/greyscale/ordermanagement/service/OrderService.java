@@ -37,13 +37,13 @@ public class OrderService {
 
     public ResponseEntity<OrderInputResultDto> processOrder(OrderInputDto orderDto, MultipartFile[] files) throws IOException {
         processImages(files, new OrderId(orderDto.customerEmailAddress(), orderDto.deliveryDate()));
-        saveOrderDto(orderDto);
+        saveOrder(orderDto, files.length);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private void saveOrderDto(OrderInputDto orderDto) {
-        OrderEntity orderEntity = OrderConverter.convertToEntity(orderDto);
+    private void saveOrder(OrderInputDto orderDto, int numberOfFiles) {
+        OrderEntity orderEntity = OrderConverter.convertToEntity(orderDto, numberOfFiles);
         orderRepository.save(orderEntity);
     }
 
@@ -72,5 +72,9 @@ public class OrderService {
 
     public boolean doesOrderExist(String emailAddress, LocalDate deliveryDate) {
         return orderRepository.existsById(new OrderId(emailAddress, deliveryDate));
+    }
+
+    public byte[] getZipFile(String emailAddress, LocalDate deliveryDate) throws IOException {
+        return greyscaleImageService.getImagesAsZip(emailAddress, deliveryDate);
     }
 }

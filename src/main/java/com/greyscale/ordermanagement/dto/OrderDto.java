@@ -6,5 +6,6 @@ public record OrderDto(
         String customerEmailAddress,
         LocalDate deliveryDate,
         String customerName,
-        String reference
+        String reference,
+        int numberOfFilesSaved
 ) {}

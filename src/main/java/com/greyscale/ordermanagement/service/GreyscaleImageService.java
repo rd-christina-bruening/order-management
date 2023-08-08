@@ -8,8 +8,16 @@ import org.springframework.stereotype.Service;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 //TODO apply https://www.baeldung.com/introduction-to-spring-batch
 // also see https://github.com/joshrotenberg/spring-batch-image-processing/tree/master
@@ -45,5 +53,31 @@ public class GreyscaleImageService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public byte[] getImagesAsZip(String emailAddress, LocalDate deliveryDate) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(byteArrayOutputStream);
+        ZipOutputStream zipOutputStream = new ZipOutputStream(bufferedOutputStream);
+
+        File imageFolder = new File(IMAGE_DIRECTORY + "/" + emailAddress + "-" + deliveryDate);
+
+        if(imageFolder.listFiles() == null) {
+            return new byte[] {};
+        }
+
+        Arrays.stream(Objects.requireNonNull(imageFolder.listFiles())).forEach(file -> {
+            try {
+                zipOutputStream.putNextEntry(new ZipEntry(file.getName()));
+                zipOutputStream.write(Files.readAllBytes(file.toPath()));
+                zipOutputStream.closeEntry();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        zipOutputStream.close();
+
+        return byteArrayOutputStream.toByteArray();
     }
 }

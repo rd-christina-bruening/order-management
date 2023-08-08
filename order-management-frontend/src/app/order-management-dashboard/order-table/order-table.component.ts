@@ -2,6 +2,8 @@ import {Component, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/co
 import {OrderDto} from '../../order-management.service';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
+import {OrderDetailDialogComponent} from './order-detail-dialog/order-detail-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-order-table',
@@ -16,14 +18,26 @@ export class OrderTableComponent implements OnChanges {
   displayedColumns: string[] = [
     'deliveryDate',
     'customerName',
-    'customerEmailAddress',
     'reference'
   ];
   @ViewChild(MatSort)
   sort!: MatSort;
 
+  constructor(public dialog: MatDialog) {
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     this.dataSource.data = this.orders;
     this.dataSource.sort = this.sort;
+  }
+
+  openOrderDetailsDialog(order: OrderDto) {
+    const dialogRef = this.dialog.open(OrderDetailDialogComponent, {
+      data: {order}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 }

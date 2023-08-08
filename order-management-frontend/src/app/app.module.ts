@@ -24,13 +24,17 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {OrderTableComponent} from './order-management-dashboard/order-table/order-table.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
+import {
+  OrderDetailDialogComponent
+} from './order-management-dashboard/order-table/order-detail-dialog/order-detail-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     OrderManagementDashboardComponent,
     CreateNewOrderDialog,
-    OrderTableComponent
+    OrderTableComponent,
+    OrderDetailDialogComponent
   ],
   imports: [
     BrowserModule,

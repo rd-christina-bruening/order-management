@@ -15,4 +15,9 @@
             <column name="reference" type="varchar(250)"/>
         </createTable>
     </changeSet>
+    <changeSet id="add number of files saved" author="Christina Brüning">
+        <addColumn tableName="orders">
+            <column name="number_of_files_saved" type="INTEGER"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

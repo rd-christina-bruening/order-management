@@ -13,6 +13,7 @@ public class OrderEntity {
     private String customerName;
 
     private String reference;
+    private int numberOfFilesSaved;
 
     public OrderId getOrderId() {
         return orderId;
@@ -25,11 +26,15 @@ public class OrderEntity {
     public String getReference() {
         return reference;
     }
+    public int getNumberOfFilesSaved() {
+        return numberOfFilesSaved;
+    }
 
-    public OrderEntity(OrderId orderId, String customerName, String reference) {
+    public OrderEntity(OrderId orderId, String customerName, String reference, int numberOfFilesSaved) {
         this.orderId = orderId;
         this.customerName = customerName;
         this.reference = reference;
+        this.numberOfFilesSaved = numberOfFilesSaved;
     }
 
 
