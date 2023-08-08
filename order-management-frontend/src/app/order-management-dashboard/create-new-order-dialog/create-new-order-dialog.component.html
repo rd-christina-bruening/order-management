@@ -14,7 +14,7 @@
 
       <mat-form-field appearance="outline">
         <mat-label>Lieferdatum</mat-label>
-        <input matInput formControlName="deliveryDate" [min]="minDate" [matDatepicker]="picker">
+        <input matInput formControlName="deliveryDate" [matDatepickerFilter]="weekendFilter" [min]="minDate" [matDatepicker]="picker">
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>

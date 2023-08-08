@@ -27,6 +27,10 @@ export class CreateNewOrderDialog {
 
   files: FileUploadItem[] = [];
   minDate = new Date();
+  weekendFilter= (d: Date | null): boolean => {
+    const day = (d || new Date()).getDay();
+    return day !== 0 && day !== 6;
+  };
 
   constructor(
     public dialogRef: MatDialogRef<CreateNewOrderDialog>,
