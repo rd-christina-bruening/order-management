@@ -21,12 +21,16 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
+import {OrderTableComponent} from './order-management-dashboard/order-table/order-table.component';
+import {MatTableModule} from '@angular/material/table';
+import {MatSortModule} from '@angular/material/sort';
 
 @NgModule({
   declarations: [
     AppComponent,
     OrderManagementDashboardComponent,
-    CreateNewOrderDialog
+    CreateNewOrderDialog,
+    OrderTableComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +49,9 @@ import {MatNativeDateModule} from '@angular/material/core';
     MatIconModule,
     MatSnackBarModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTableModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent]
