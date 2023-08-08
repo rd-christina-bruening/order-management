@@ -26,4 +26,9 @@ export class OrderDetailDialogComponent {
         link.click();
       });
   }
+
+  onClickDelete() {
+    this.orderManagementService.deleteOrder(this.data.order.customerEmailAddress, this.data.order.deliveryDate).subscribe();
+    this.dialogRef.close();
+  }
 }

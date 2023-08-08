@@ -43,6 +43,7 @@ export class OrderTableComponent implements OnChanges {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+      this.dataChanged.emit();
     });
   }
 
