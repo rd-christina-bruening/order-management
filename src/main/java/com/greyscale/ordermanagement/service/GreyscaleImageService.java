@@ -1,6 +1,8 @@
 package com.greyscale.ordermanagement.service;
 
 import com.greyscale.ordermanagement.model.OrderId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
@@ -14,7 +16,9 @@ import java.io.IOException;
 @Service
 public class GreyscaleImageService {
 
-    private static final String IMAGE_DIRECTORY = "./src/main/java/com/greyscale/ordermanagement/images/";
+    private static final Logger LOGGER = LoggerFactory.getLogger(GreyscaleImageService.class);
+
+    private static final String IMAGE_DIRECTORY = "./src/main/java/com/greyscale/ordermanagement/images";
 
     public void convertAndStoreImage(BufferedImage image, OrderId orderId, String name) {
         BufferedImage greyscaleImage = convertToGreyscale(image);
@@ -36,6 +40,7 @@ public class GreyscaleImageService {
 
     private static void writeFile(BufferedImage blackAndWhiteImg, String path, String name) {
         try {
+            LOGGER.info("Trying to write file to " + path);
             ImageIO.write(blackAndWhiteImg, "png", new File(path, name + ".png"));
         } catch (IOException e) {
             throw new RuntimeException(e);

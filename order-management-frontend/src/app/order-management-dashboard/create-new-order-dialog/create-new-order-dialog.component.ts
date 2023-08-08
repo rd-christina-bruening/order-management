@@ -4,6 +4,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {OrderData} from '../order-management-dashboard.component';
 import {NgxFileDropEntry} from 'ngx-file-drop';
 import {NotificationService} from '../../notification/notification.service';
+import {OrderDto, OrderManagementService} from '../../order-management.service';
 
 export type FileUploadItem = {
   fileDropEntry: NgxFileDropEntry | null;
@@ -25,11 +26,13 @@ export class CreateNewOrderDialog {
   });
 
   files: FileUploadItem[] = [];
+  minDate = new Date();
 
   constructor(
     public dialogRef: MatDialogRef<CreateNewOrderDialog>,
     @Inject(MAT_DIALOG_DATA) public data: OrderData,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private orderManagementService: OrderManagementService
   ) {
   }
   onNoClick(): void {
@@ -37,7 +40,17 @@ export class CreateNewOrderDialog {
   }
 
   onSaveClick() {
+    const formData = new FormData();
 
+    this.files.forEach((uploadedFile: FileUploadItem) => {
+      if (uploadedFile.file != null && uploadedFile.fileDropEntry != null) {
+        formData.append('files', uploadedFile.file, uploadedFile.fileDropEntry.fileEntry.name);
+      }
+    });
+
+    formData.append('orderData', JSON.stringify(this.createOrderDto()));
+
+    this.orderManagementService.saveNewOrder(formData).subscribe();
   }
 
   public dropped(files: NgxFileDropEntry[]) {
@@ -57,9 +70,7 @@ export class CreateNewOrderDialog {
             file: null,
           };
 
-
           this.files = this.files.concat(uploadDocumentItem);
-
 
           const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
           fileEntry.file((file) => {
@@ -103,5 +114,11 @@ export class CreateNewOrderDialog {
         return elem.fileDropEntry?.fileEntry.name !== filename;
       });
     }
+  }
+
+  private createOrderDto() : OrderDto{
+    const values = this.orderForm.getRawValue();
+
+    return new OrderDto(values['customerEmailAddress']!!, values['customerName']!!, values['reference']!!, values['deliveryDate']!!);
   }
 }

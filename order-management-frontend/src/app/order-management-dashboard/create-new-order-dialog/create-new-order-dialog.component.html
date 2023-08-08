@@ -11,11 +11,15 @@
         <mat-label>Kundenname</mat-label>
         <input matInput formControlName="customerName" placeholder="Name" required/>
       </mat-form-field>
-      <!--TODO change to date picker -->
+
       <mat-form-field appearance="outline">
         <mat-label>Lieferdatum</mat-label>
-        <input matInput formControlName="deliveryDate" placeholder="Lieferdatum" required/>
+        <input matInput formControlName="deliveryDate" [min]="minDate" [matDatepicker]="picker">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>Betreff</mat-label>
         <input matInput formControlName="reference" placeholder="Betreff" required/>

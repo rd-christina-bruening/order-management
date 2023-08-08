@@ -51,7 +51,7 @@ public class OrderController {
             @RequestParam("files") MultipartFile[] files
     ) {
         LOGGER.info("Received files");
-        if (Arrays.stream(files).anyMatch(file -> file.getSize() > 3145728)) {
+        if (Arrays.stream(files).anyMatch(file -> file.getSize() > (3 * 1024 * 1024))) {
             return new ResponseEntity<>(HttpStatus.PAYLOAD_TOO_LARGE);
         }
 
