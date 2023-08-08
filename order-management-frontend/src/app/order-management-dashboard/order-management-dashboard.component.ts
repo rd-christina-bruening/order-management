@@ -40,4 +40,7 @@ export class OrderManagementDashboardComponent implements OnInit {
     });
   }
 
+  refreshOrders() {
+    this.loadOrders();
+  }
 }

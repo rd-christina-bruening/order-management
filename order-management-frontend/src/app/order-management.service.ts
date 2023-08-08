@@ -20,6 +20,13 @@ export class OrderManagementService {
   downloadFiles(deliveryDate: Date, customerEmailAddress: string) {
     return this.httpClient.get('http://localhost:8080/api/orders/zip/' + customerEmailAddress + '/' + deliveryDate, {responseType: 'blob'})
   }
+
+
+  deleteOrder(customerEmailAddress: string, deliveryDate: Date) {
+    return this.httpClient.delete('http://localhost:8080/api/orders/' + customerEmailAddress + '/' + deliveryDate)
+  }
+
+
 }
 
 

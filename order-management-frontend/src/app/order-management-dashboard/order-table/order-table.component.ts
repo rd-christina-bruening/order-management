@@ -1,5 +1,5 @@
-import {Component, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
-import {OrderDto} from '../../order-management.service';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {OrderDto, OrderManagementService} from '../../order-management.service';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {OrderDetailDialogComponent} from './order-detail-dialog/order-detail-dialog.component';
@@ -14,16 +14,21 @@ export class OrderTableComponent implements OnChanges {
   @Input()
   orders: OrderDto[] = [];
 
+  @Output()
+  dataChanged = new EventEmitter();
+
   dataSource = new MatTableDataSource<OrderDto>([])
   displayedColumns: string[] = [
     'deliveryDate',
     'customerName',
-    'reference'
+    'reference',
+    'info',
+    'delete'
   ];
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog, private orderManagementService: OrderManagementService) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -38,6 +43,13 @@ export class OrderTableComponent implements OnChanges {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+    });
+  }
+
+  onClickDelete(customerEmailAddress: string, deliveryDate: Date) {
+    this.orderManagementService.deleteOrder(customerEmailAddress, deliveryDate).subscribe(_=>
+    {
+      this.dataChanged.emit();
     });
   }
 }
